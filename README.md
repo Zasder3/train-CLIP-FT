@@ -1,32 +1,19 @@
-# train-CLIP 📎
+# train-CLIP-FT 📎
 
-A PyTorch Lightning solution to training CLIP from both scratch and fine-tuning.
+A PyTorch Lightning solution to finetuning the released CLIP models
  
 ## Usage 🚂
 
-### From Scratch 🌵
-This training setup is easily usable right outside the box! Simply provide a training directory or your own dataset and we've got the rest covered. To train a model just specify a name from the paper name and tell us your training folder and batch size. All possible models can be seen in the yaml files in `models/config`
-
-```
-python train.py --model_name RN50 --folder data_dir --batchsize 512
-```
-
-### Data-Efficient Finetuning 🚆
-To perform CLIP training much more efficiently, you might be interested in the class `CustomCLIPWrapper`. This functions as a way to finetune pre-trained image and language models; in turn this leads to a large performance efficiency increase! In order to use this, one simply needs to modify the `train_finetune.py` file to pass an image encoder and Hugging Face text encoder. 
+### Finetuning 🚆
+To finetune an existing model all you have to do is change the string which specifies which model to load!
 
 ```python
-img_encoder = resnet50(pretrained=True)
-img_encoder.fc = torch.nn.Linear(2048, 768)
-
-tokenizer = AutoTokenizer.from_pretrained("johngiorgi/declutr-sci-base")
-txt_encoder = AutoModel.from_pretrained("johngiorgi/declutr-sci-base")
-
-model = CustomCLIPWrapper(img_encoder, txt_encoder, hparams.minibatch_size, avg_word_embs=True)
+clp, preprocess = clip.load("ViT-B/16", device='cpu')
 ```
 
-The command line argument is the same as before minus the `--model_name` flag:
+Then simply type the following into your terminal:
 ```
-python train.py --model_name RN50 --folder data_dir --batchsize 512
+python train_finetune.py --folder data_dir --batchsize 512
 ```
 
 ### Training with our DataModule 📉
