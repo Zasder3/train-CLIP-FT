@@ -1,6 +1,12 @@
 # train-CLIP-FT 📎
 
 A PyTorch Lightning solution to finetuning the released CLIP models
+
+## Dependencies
+```bash
+pip install 'git+https://github.com/katsura-jp/pytorch-cosine-annealing-with-warmup'
+pip install pytorch-lightning
+```
  
 ## Usage 🚂
 
@@ -13,7 +19,13 @@ clp, preprocess = clip.load("ViT-B/16", device='cpu')
 
 Then simply type the following into your terminal:
 ```
-python train_finetune.py --folder data_dir --batchsize 512
+python train_finetune.py --folder data_dir --batch_size 512
+```
+
+For training on GPU/s:
+```bash
+# 0 is the first GPU, 1 is the second, etc.
+python train_finetune.py --folder data_dir --batch_size 512 --gpus 0, 
 ```
 
 ### Training with our DataModule 📉
